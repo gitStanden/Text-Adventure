@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Text_Adventure
 {
-    interface ICharacterInterface
+    interface ICharacter
     {
         string Name { get; set; }
         int Health { get; set; }

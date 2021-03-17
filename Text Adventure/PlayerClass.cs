@@ -6,11 +6,16 @@ using System.Threading.Tasks;
 
 namespace Text_Adventure
 {
-    class PlayerClass : GameClass
+    class PlayerClass : ICharacter
     {
-        public PlayerClass(string name, int health, double magic) : base(name, health, magic)
+        public string Name { get; set; }
+        public int Health { get; set; }
+        public double Magic { get; set; }
+        public PlayerClass(string name, int health, double magic)
         {
-            
+            Name = name;
+            Health = health;
+            Magic = magic;
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Text_Adventure
         {
             Console.Write("Hello, welcome to my text adventure game.\n Please start by entering your character name: ");
             PlayerClass player = new PlayerClass(Convert.ToString(Console.ReadLine()), 30, 50.0);
-            Weapons silverSword = new Weapons("Silver Sword", 1, 5);
+            Weapons silverSword = new Weapons("Silver Sword", 2, 5);
 
             object[] inventory = { silverSword };
 
@@ -21,40 +21,36 @@ namespace Text_Adventure
             Console.WriteLine("\nPress the enter key to continue...");
             Console.ReadLine();
 
-            Enemy krakenTentacle = new Enemy("Kraken Tentacle", 35, 0, 3, 7);
+            Enemy krakenTentacle = new Enemy("Kraken Tentacle", 35, 0, 2, 6);
 
             BattleEncounter(krakenTentacle, player, silverSword); //MAGIC NOT IMPLEMENTED
         }
 
-        static int CritCheck(int damage) //Rolls "dice" between 1 and 100 to check for either critical hit or critical miss
-        {
-            int criticalHitNum;
-            Random criticalHitCheck = new Random();
-            criticalHitNum = criticalHitCheck.Next(1, 100);
-
-            if (criticalHitNum >= 95)
-            {
-                Console.WriteLine("CRITICAL HIT!");
-                return damage * 2;
-            }
-            else if (criticalHitNum <= 5)
-            {
-                Console.WriteLine("CRITICAL MISS!");
-                return damage * 0;
-            }
-            else
-            {
-                return damage;
-            }
-        }
-
-        static int Attack(int minDamage, int maxDamage, int health)
+        static void Attack(int minDamage, int maxDamage, ICharacter character)
         {
             Console.WriteLine($"Attacking! \n");
+            
             Random randDamage = new Random();
             int damage = randDamage.Next(minDamage, maxDamage);
-            CritCheck(damage);
-            return health -= damage;
+
+            int criticalDiceRoll = randDamage.Next(0, 20);
+            switch (criticalDiceRoll)
+            {
+                case 1:
+                    Console.WriteLine("CRITICAL HIT!");
+                    damage *= 2;
+                    break;
+
+                case 2:
+                    Console.WriteLine("CRITICAL MISS!");
+                    damage = 0;
+                    break;
+
+                default:
+                    break;
+            }
+
+            character.Health -= damage;
         }
 
         static void BattleEncounter(Enemy enemy, PlayerClass player, Weapons weapon)
@@ -75,8 +71,13 @@ namespace Text_Adventure
 
                     if (option == 'A' || option == 'a')
                     {
-                        Attack(weapon.MinDamage, weapon.MaxDamage, enemy.Health);
+                        Attack(weapon.MinDamage, weapon.MaxDamage, enemy);
                         Console.WriteLine($"\nEnemy now has {enemy.Health}.\n");
+
+                        if (enemy.Health <= 0)
+                        {
+                            break;
+                        }
                     }
                     else if (option == 'B' || option == 'b')
                     {
@@ -88,15 +89,15 @@ namespace Text_Adventure
                 if (playerTurn == false)
                 {
                     Console.WriteLine($"ENEMY TURN \n");
-                    Console.WriteLine($"{enemy.Name} \n---------- \n HP: {enemy.Health} \n Magic: {enemy.Magic} \n");
-                    Console.WriteLine($"{player.Name} \n----------\n HP: {player.Health} \n Magic: {player.Magic} \n");
 
-                    Attack(enemy.MinDamage, enemy.MaxDamage, player.Health);
+                    Attack(enemy.MinDamage, enemy.MaxDamage, player);
                     Console.WriteLine($"\nYou now have {player.Health}.\n");
 
-                    playerTurn = true;
+                    if (player.Health <= 0)
+                    {
+                        break;
+                    }
                 }
-                
             }
         }
     }

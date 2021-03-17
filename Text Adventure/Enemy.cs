@@ -6,12 +6,22 @@ using System.Threading.Tasks;
 
 namespace Text_Adventure
 {
-    class Enemy : GameClass
+    class Enemy : ICharacter
     {
-
-        public Enemy(string name, int health, double magic, int minDamage, int maxDamage) : base(name, health, magic, minDamage, maxDamage)
+        public string Name { get; set; }
+        public int Health {get; set;}
+        public double Magic { get; set; }
+        public int MinDamage { get; set; }
+        public int MaxDamage { get; set; }
+        public Enemy(string name, int health, double magic, int minDamage, int maxDamage)
         {
-            
+            Name = name;
+            Health = health;
+            Magic = magic;
+            MinDamage = minDamage;
+            MaxDamage = maxDamage;
         }
+
+        
     }
 }
