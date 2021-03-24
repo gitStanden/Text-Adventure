@@ -11,18 +11,30 @@ namespace Text_Adventure
         static void Main(string[] args)
         {
             Console.Write("Hello, welcome to my text adventure game.\n Please start by entering your character name: ");
+
+            //Player Class
             PlayerClass player = new PlayerClass(Convert.ToString(Console.ReadLine()), 30, 50.0);
+            
+            //PlayerWeapons
             Weapons silverSword = new Weapons("Silver Sword", 2, 5);
 
+            //PlayerSpells
+            SpellBook heal = new SpellBook("Heal", 10, 5);
+            SpellBook smite = new SpellBook("Smite", 8, 10);
+            
+            //PlayerInventory
             object[] inventory = { silverSword };
 
-            Console.WriteLine($"\n \n Jorge: \"Abandon ship! Abandon ship!\" \nA crewmate screams as you stand in horror of what is currently tearing the warship to pieces");
+            //TutorialIntro
+            Console.WriteLine($"\n \n ???: \"Abandon ship! Abandon ship!\" \nA crewmate screams as you stand in horror of what is currently tearing the warship to pieces");
             Console.WriteLine($"Nothing could have prepared you for this, and even worse is you were caught unprepared, yet instinctively you draw your silver sword.");
             Console.WriteLine("\nPress the enter key to continue...");
             Console.ReadLine();
 
+            //KrakenTenacleEnemy
             Enemy krakenTentacle = new Enemy("Kraken Tentacle", 35, 0, 2, 6);
 
+            //TutorialFight
             BattleEncounter(krakenTentacle, player, silverSword); //MAGIC NOT IMPLEMENTED
         }
 
@@ -52,6 +64,15 @@ namespace Text_Adventure
 
             character.Health -= damage;
         }
+
+        //static void MagicAttack(SpellBook effect, SpellBook magicCost, ICharacter character) 
+       // {
+        //    Console.WriteLine($"Magic Attack! \n");
+        //    int damage;
+        //    int heal;
+
+        //    character.Health -= damage;
+       // }
 
         static void BattleEncounter(Enemy enemy, PlayerClass player, Weapons weapon)
         {

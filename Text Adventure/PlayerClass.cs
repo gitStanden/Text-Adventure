@@ -11,6 +11,8 @@ namespace Text_Adventure
         public string Name { get; set; }
         public int Health { get; set; }
         public double Magic { get; set; }
+
+
         public PlayerClass(string name, int health, double magic)
         {
             Name = name;
